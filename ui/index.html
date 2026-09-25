@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>laya-shim</title>
+    <style>
+      body { font: 14px system-ui, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+      label { display: block; margin-top: 1rem; font-weight: 600; }
+      textarea { width: 100%; box-sizing: border-box; font: 13px ui-monospace, monospace; }
+      button { margin-top: 1rem; padding: 0.4rem 1rem; }
+      table { border-collapse: collapse; margin-top: 1rem; width: 100%; }
+      th, td { border: 1px solid #ccc; padding: 0.3rem 0.5rem; text-align: left; vertical-align: top; }
+      pre { background: #f4f4f4; padding: 0.5rem; overflow: auto; }
+      .error { color: #b00; }
+    </style>
+  </head>
+  <body>
+    <h1>laya-shim</h1>
+
+    <label for="sample">Sample</label>
+    <select id="sample"></select>
+
+    <label for="state">State (text, or a JSON object or array)</label>
+    <textarea id="state" rows="4"></textarea>
+
+    <label for="questions">Questions (JSON)</label>
+    <textarea id="questions" rows="14"></textarea>
+
+    <button id="ask">Ask</button>
+    <span id="status"></span>
+
+    <div id="answers"></div>
+    <details>
+      <summary>Raw response</summary>
+      <pre id="raw"></pre>
+    </details>
+
+    <script type="module" src="./app.ts"></script>
+  </body>
+</html>

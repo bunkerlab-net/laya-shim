@@ -10,6 +10,7 @@ pipx.uvx = true
 [tools]
 "pipx:ruff" = "0.16"
 
+bun = "1"
 hk = "2"
 uv = "0.12"
 
@@ -36,6 +37,10 @@ run = "uv run --no-project python benchmarks/bench.py"
 [tasks.test]
 description = "Run the tests, including the omp contract tests on the checkpoint"
 run = 'uv run --extra "$LAYA_BACKEND" pytest'
+
+[tasks.ui]
+description = "Serve a test page for a running server on http://localhost:3000"
+run = "bun ui/server.ts"
 
 [hooks]
 enter = ["hk install --mise"]

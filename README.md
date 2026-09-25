@@ -55,6 +55,30 @@ request it's answering, closes its socket, and logs `stopped`. After Ctrl+C,
 If you press Ctrl+C during startup, for example during a download, the server
 logs `interrupted during startup` and exits.
 
+## Try questions in a browser
+
+`ui/` holds a test page that sends System One requests to a running server.
+Start the server, and then run this command in a second terminal:
+
+```sh
+mise run ui
+```
+
+Open <http://localhost:3000>. Pick a sample from the list, or edit the state
+and the questions JSON to write your own, and then click **Ask**. The page
+shows each answer, its confidence, and its probabilities, and it keeps the raw
+response under **Raw response**.
+
+Each sample is a request that an omp feature sends, loaded from
+[`tests/fixtures`](#test-omp-compatibility). omp sends the state as text, a
+JSON object, or a JSON array. The page does the same: if the state box holds a
+JSON object or array, the page sends it as JSON, and otherwise it sends the
+text.
+
+The page's Bun server forwards `/api/systemone` to the shim at `LAYA_HOST` and
+`LAYA_PORT`, because the shim sends no CORS headers. To serve the page on
+another port, set `UI_PORT`.
+
 ## Configure the server
 
 `mise.toml` sets these variables. The shim uses the same defaults when you run
@@ -231,6 +255,8 @@ The project uses Python's standard `src` layout:
   `laya-shim` command to its `main()` function.
 - `benchmarks/bench.py` is the latency benchmark. It isn't part of the
   package.
+- `ui/` is the browser test page. It needs Bun, which mise installs, and has
+  no other dependencies.
 - `tests/` holds the tests and the omp request fixtures.
 
 To run the server without mise, run `uv run --extra mlx laya-shim`.
@@ -280,7 +306,8 @@ The tests start their own server on a free port, so you don't need
 To run only the tests that don't need the checkpoint, run
 `uv run pytest -m "not model"`.
 
-When omp changes a request, update the matching fixture.
+When omp changes a request, update the matching fixture. The test page loads
+the same files, so it picks up the change too.
 
 ## License
 
