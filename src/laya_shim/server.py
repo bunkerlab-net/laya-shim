@@ -139,7 +139,7 @@ class Handler(BaseHTTPRequestHandler):
         log.warning("%s %s", self.client_address[0], format % args)
 
 
-def main():
+def serve():
     configure_logging()
     log.info(
         "starting: backend=%s model=%s subfolder=%s",
@@ -181,9 +181,10 @@ def main():
     log.info("stopped")
 
 
-if __name__ == "__main__":
+def main():
+    """Entry point for the `laya-shim` command."""
     try:
-        main()
+        serve()
     except KeyboardInterrupt:
         # Ctrl+C before the server starts, for example during a download.
         log.info("interrupted during startup")

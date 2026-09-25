@@ -1,4 +1,4 @@
-"""Measures request latency against a running laya_shim.py server.
+"""Measures request latency against a running laya-shim server.
 
 Each workload sends the same System One request `--warmup` times without
 timing it, then `--iterations` times with timing. The time covers the whole

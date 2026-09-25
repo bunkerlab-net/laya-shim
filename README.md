@@ -1,6 +1,6 @@
 # laya-shim
 
-`laya_shim.py` runs a [Laya](https://huggingface.co/convaiinnovations/laya)
+`laya-shim` runs a [Laya](https://huggingface.co/convaiinnovations/laya)
 checkpoint behind TypeSafe's System One route, `POST /v1/systemone`. That
 route is the one omp calls for its `judge` model role. Point the role at this
 server and omp's typed yes/no, choice, and score decisions run on your machine
@@ -174,17 +174,22 @@ the answers.
 
 ## Benchmarks
 
-`bench.py` sends System One requests to a running server and times each HTTP
-round trip. To measure your machine, start the server, and then run this
-command in a second terminal:
+`benchmarks/bench.py` sends System One requests to a running server and times
+each HTTP round trip. To measure your machine, start the server, and then run
+this command in a second terminal:
 
 ```sh
 mise run bench
 ```
 
 Each workload runs 5 untimed warmup requests and then 50 timed ones. To change
-the counts, run `uv run --no-project python bench.py --iterations 100 --warmup
-10`. The long workload's state is about 12,700 characters, far more than Laya's
+the counts, run this command:
+
+```sh
+uv run --no-project python benchmarks/bench.py --iterations 100 --warmup 10
+```
+
+The long workload's state is about 12,700 characters, far more than Laya's
 1,024-token context holds, so Laya reads a full context and drops the rest.
 
 These results come from an Apple M2 Pro with 16 GB of memory and the
@@ -219,6 +224,15 @@ The server writes these log lines to standard error:
 When color is on, `INFO` is green, `WARNING` is yellow, and `ERROR` is red.
 
 ## Development
+
+The project uses Python's standard `src` layout:
+
+- `src/laya_shim/server.py` is the server. `pyproject.toml` maps the
+  `laya-shim` command to its `main()` function.
+- `benchmarks/bench.py` is the latency benchmark. It isn't part of the
+  package.
+
+To run the server without mise, run `uv run --extra mlx laya-shim`.
 
 [hk](https://hk.jdx.dev) runs `ruff check` and then `ruff format` as a
 pre-commit hook. mise installs the hook when a shell with `mise activate`

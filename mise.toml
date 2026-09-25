@@ -25,14 +25,13 @@ LAYA_LOG_COLOR = "{{ get_env(name='LAYA_LOG_COLOR', default='auto') }}"
 
 [tasks.serve]
 description = "Serve Laya on POST /v1/systemone"
-run = 'uv run --extra "$LAYA_BACKEND" python laya_shim.py'
+run = 'uv run --extra "$LAYA_BACKEND" laya-shim'
 
 [tasks.bench]
 description = "Measure request latency against a running server"
 # --no-project keeps uv from syncing .venv, which would remove the backend
 # packages that `serve` installed. bench.py only needs the standard library.
-run = "uv run --no-project python bench.py"
-
+run = "uv run --no-project python benchmarks/bench.py"
 
 [hooks]
 enter = ["hk install --mise"]
