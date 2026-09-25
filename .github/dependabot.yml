@@ -1,0 +1,17 @@
+version: 2
+updates:
+  # Updates the SHA and the version comment on each pinned action.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    # Matches minimum_release_age in mise.toml.
+    cooldown:
+      default-days: 1
+
+  - package-ecosystem: uv
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 1

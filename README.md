@@ -200,3 +200,12 @@ remains that ruff can't fix. To skip it for one commit, run
 
 To run the same checks on every file, run `hk check --all`. To apply the fixes,
 run `hk fix --all`.
+
+The CI workflow in `.github/workflows/ci.yml` runs `hk check --all` and
+`uv lock --check` on each push to `master` and on each pull request. CI doesn't
+start the server, because that needs an 850 MB checkpoint download.
+
+Every action in the workflows is pinned to a full commit SHA, with the version
+in a trailing comment. Dependabot updates those pins and the uv dependencies
+every week. Dependabot doesn't read `mise.toml`, so update the versions of hk,
+ruff, and uv there yourself.
