@@ -1,0 +1,28 @@
+{
+  "source": "packages/coding-agent/src/tools/jfind/questions.ts",
+  "request": {
+    "model": "laya-local",
+    "state": {
+      "criteria": {
+        "no": "This passage only mentions, calls, imports, tests, or configures the subject, or contains unrelated code sharing keywords.",
+        "yes": "This passage contains an implementation, definition, or substantive explanation of an important part of the search. A helper implementing one requested step counts even when other steps are elsewhere."
+      },
+      "file": "src/laya_shim/server.py",
+      "passages": {
+        "p00": "except (KeyError, TypeError, ValueError) as e:\n    reason = f\"missing field {e}\" if isinstance(e, KeyError) else str(e)\n    log.warning(\"rejected request: %s\", reason)\n    self.reply(422, {\"error\": reason})\n    return",
+        "p01": "def log_request(self, code=\"-\", size=\"-\"):\n    # reply() writes the access log line, with timing.\n    pass"
+      },
+      "search": "where the shim returns HTTP 422"
+    },
+    "questions": {
+      "p00": {
+        "type": "noul",
+        "instructions": "Does `passages.p00` substantively implement, define, or explain part of \"where the shim returns HTTP 422\"? Apply `criteria`."
+      },
+      "p01": {
+        "type": "noul",
+        "instructions": "Does `passages.p01` substantively implement, define, or explain part of \"where the shim returns HTTP 422\"? Apply `criteria`."
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "source": "packages/coding-agent/src/tools/jfind/questions.ts",
+  "request": {
+    "model": "laya-local",
+    "state": {
+      "criteria": {
+        "no": "Unrelated code; mere mentions, declarations, call sites, tests or configuration without implementation.",
+        "yes": "Likely substantive implementation, definition or explanation of any part of the requested behavior. A matching helper for one step counts. Excerpts omit most source: favor recall."
+      },
+      "files": {
+        "f0": "benchmarks/bench.py",
+        "f1": "src/laya_shim/server.py"
+      },
+      "passages": {
+        "p00": [
+          "f1",
+          "L103| except (KeyError, TypeError, ValueError) as e:\nL109|     self.reply(422, {\"error\": reason})"
+        ],
+        "p01": [
+          "f0",
+          "L56| def post(url, state, questions):\nL62|     with urllib.request.urlopen(request) as response:"
+        ]
+      },
+      "search": "where the shim returns HTTP 422"
+    },
+    "questions": {
+      "p00": {
+        "type": "noul",
+        "instructions": "Could passage p00 implement a requested step of search? Apply criteria."
+      },
+      "p01": {
+        "type": "noul",
+        "instructions": "Could passage p01 implement a requested step of search? Apply criteria."
+      }
+    }
+  }
+}

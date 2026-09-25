@@ -1,0 +1,21 @@
+{
+  "source": "packages/coding-agent/src/auto-thinking/classifier.ts",
+  "request": {
+    "model": "laya-local",
+    "state": {
+      "request": "Rename the `userId` constant in auth.ts and update its two uses."
+    },
+    "questions": {
+      "level": {
+        "type": "choice",
+        "instructions": "The state is a user's request to a coding agent. Choose the reasoning effort this turn needs, judging inherent task difficulty rather than phrasing politeness or verbosity. If torn between levels, choose the lower one.",
+        "criteria": {
+          "low": "Trivial or mechanical: rename, typo, one-line edit, formatting tweak, direct factual question, obvious solution.",
+          "medium": "Localized change needing reasoning: small self-contained feature, straightforward one-place bug fix, explain moderate code.",
+          "high": "Non-trivial: multiple files or callers, real debugging, moderate design decision, refactor with several moving parts.",
+          "xhigh": "Deep or open-ended: subtle concurrency or algorithmic problem, cross-system reasoning, ambiguous requirements, large or risky refactor, hard root-cause debugging."
+        }
+      }
+    }
+  }
+}

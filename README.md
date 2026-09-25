@@ -231,6 +231,7 @@ The project uses Python's standard `src` layout:
   `laya-shim` command to its `main()` function.
 - `benchmarks/bench.py` is the latency benchmark. It isn't part of the
   package.
+- `tests/` holds the tests and the omp request fixtures.
 
 To run the server without mise, run `uv run --extra mlx laya-shim`.
 
@@ -244,14 +245,42 @@ remains that ruff can't fix. To skip it for one commit, run
 To run the same checks on every file, run `hk check --all`. To apply the fixes,
 run `hk fix --all`.
 
-The CI workflow in `.github/workflows/ci.yml` runs `hk check --all` and
-`uv lock --check` on each push to `master` and on each pull request. CI doesn't
-start the server, because that needs an 850 MB checkpoint download.
+The CI workflow in `.github/workflows/ci.yml` runs `hk check --all`,
+`uv lock --check`, and the tests that don't need the checkpoint, on each push
+to `master` and on each pull request. CI skips the contract tests, because
+they need an 850 MB checkpoint download.
 
 Every action in the workflows is pinned to a full commit SHA, with the version
 in a trailing comment. Dependabot updates those pins and the uv dependencies
 every week. Dependabot doesn't read `mise.toml`, so update the versions of hk,
 ruff, and uv there yourself.
+
+### Test omp compatibility
+
+To run every test, run this command:
+
+```sh
+mise run test
+```
+
+The tests start their own server on a free port, so you don't need
+`mise run serve` running. They use the backend that `LAYA_BACKEND` selects.
+
+- `tests/test_contract.py` loads the checkpoint and sends each request in
+  `tests/fixtures`. Each fixture copies a request from the omp feature that
+  its `source` field names, such as auto thinking, judged rules, git AI
+  staging, `find`, and the eval `judge()` helper. The test checks each reply
+  against omp's System One types: every question has an answer of the same
+  type, probabilities cover every option or level and sum to 1, a choice is the
+  most likely option, and a score is the weighted mean of its levels.
+- `tests/test_http.py` checks the status codes omp acts on, with a stub in
+  place of Laya. omp retries a `5xx` response, and it moves on to the next
+  judge after a `4xx`.
+
+To run only the tests that don't need the checkpoint, run
+`uv run pytest -m "not model"`.
+
+When omp changes a request, update the matching fixture.
 
 ## License
 

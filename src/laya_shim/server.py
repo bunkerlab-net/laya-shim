@@ -139,6 +139,17 @@ class Handler(BaseHTTPRequestHandler):
         log.warning("%s %s", self.client_address[0], format % args)
 
 
+def load_agent():
+    """Loads the checkpoint that LAYA_BACKEND, LAYA_MODEL, and LAYA_SUBFOLDER name."""
+    if BACKEND == "mlx":
+        import laya_mlx as laya
+    elif BACKEND == "torch":
+        import laya
+    else:
+        raise SystemExit(f"LAYA_BACKEND must be mlx or torch, got {BACKEND!r}")
+    return laya.load(MODEL, subfolder=SUBFOLDER)
+
+
 def serve():
     configure_logging()
     log.info(
@@ -147,16 +158,9 @@ def serve():
         MODEL,
         SUBFOLDER or "(root)",
     )
-    if BACKEND == "mlx":
-        import laya_mlx as laya
-    elif BACKEND == "torch":
-        import laya
-    else:
-        raise SystemExit(f"LAYA_BACKEND must be mlx or torch, got {BACKEND!r}")
-
     log.info("loading checkpoint; the first run downloads it from Hugging Face")
     started = time.perf_counter()
-    agent = laya.load(MODEL, subfolder=SUBFOLDER)
+    agent = load_agent()
     log.info("checkpoint loaded in %.1f s", time.perf_counter() - started)
 
     # HTTPServer handles one request at a time, so only one forward pass runs

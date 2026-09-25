@@ -1,0 +1,17 @@
+{
+  "source": "packages/coding-agent/src/eval/judgment-bridge.ts",
+  "request": {
+    "model": "laya-local",
+    "state": [
+      "deploy failed: timeout after 30s",
+      "retrying deploy",
+      "deploy failed: timeout after 30s"
+    ],
+    "questions": {
+      "flaky": {
+        "type": "noul",
+        "instructions": "Do these log lines show the same failure repeating?"
+      }
+    }
+  }
+}

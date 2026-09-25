@@ -33,5 +33,9 @@ description = "Measure request latency against a running server"
 # packages that `serve` installed. bench.py only needs the standard library.
 run = "uv run --no-project python benchmarks/bench.py"
 
+[tasks.test]
+description = "Run the tests, including the omp contract tests on the checkpoint"
+run = 'uv run --extra "$LAYA_BACKEND" pytest'
+
 [hooks]
 enter = ["hk install --mise"]

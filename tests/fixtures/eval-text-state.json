@@ -1,0 +1,31 @@
+{
+  "source": "packages/coding-agent/src/eval/judgment-bridge.ts",
+  "request": {
+    "model": "laya-local",
+    "state": "I was billed twice. Please refund the duplicate today.",
+    "questions": {
+      "billing": {
+        "type": "noul",
+        "instructions": "Is this about billing?"
+      },
+      "urgency": {
+        "type": "score",
+        "instructions": "How urgent is this request?",
+        "criteria": [
+          "low",
+          "medium",
+          "high"
+        ]
+      },
+      "team": {
+        "type": "choice",
+        "instructions": "Which team should handle this request?",
+        "criteria": {
+          "billing": "invoices, payments, refunds",
+          "technical": "bugs and outages",
+          "sales": null
+        }
+      }
+    }
+  }
+}

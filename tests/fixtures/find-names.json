@@ -1,0 +1,37 @@
+{
+  "source": "packages/coding-agent/src/tools/jfind/questions.ts",
+  "request": {
+    "model": "laya-local",
+    "state": {
+      "criteria": {
+        "file": {
+          "no": "The file is unrelated by name and location; generated executable implementation can still be relevant.",
+          "yes": "A file at this path plausibly contains code, text, or data matching the search."
+        },
+        "folder": {
+          "no": "Nothing about the folder's name, location, or sampled contents suggests it holds a match.",
+          "yes": "The folder plausibly contains, at any depth, at least one file matching the search."
+        }
+      },
+      "format": "`tree` is a directory listing. Lines starting with # are headers: `# dir/` is a folder; more #s means deeper nesting under the header above; a header may fold several levels (`# a/b/c/`). Every judgeable entry carries a tag like e017 right after the #s: files as `e017 name (size)`, folders as `e017 name/ — N entries: sample of names`. Untagged header lines are only structure.",
+      "project": "laya-shim",
+      "search": "where the shim returns HTTP 422",
+      "task": "Semantic grep over a source tree: locate files whose content matches the search description. Entries are judged by name, size, position in the tree, and (for folders) a sample of what they contain.",
+      "tree": "# src/laya_shim/\n## e000 server.py (6.8 KB)\n# benchmarks/\n## e001 bench.py (3.2 KB)\n# e002 README.md (11.4 KB)"
+    },
+    "questions": {
+      "e000": {
+        "type": "noul",
+        "instructions": "Is the file tagged e000 (\"server.py\") likely to contain what this search is looking for: \"where the shim returns HTTP 422\"? Judge by its name, size, and place in `tree`; apply `criteria.file`."
+      },
+      "e001": {
+        "type": "noul",
+        "instructions": "Is the file tagged e001 (\"bench.py\") likely to contain what this search is looking for: \"where the shim returns HTTP 422\"? Judge by its name, size, and place in `tree`; apply `criteria.file`."
+      },
+      "e002": {
+        "type": "noul",
+        "instructions": "Is the file tagged e002 (\"README.md\") likely to contain what this search is looking for: \"where the shim returns HTTP 422\"? Judge by its name, size, and place in `tree`; apply `criteria.file`."
+      }
+    }
+  }
+}

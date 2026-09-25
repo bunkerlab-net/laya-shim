@@ -22,3 +22,5 @@ jobs:
       - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
       - run: hk check --all
       - run: uv lock --check
+      # The contract tests need the 850 MB checkpoint, so CI skips them.
+      - run: uv run pytest -m "not model"
