@@ -1,0 +1,18 @@
+# https://mise.jdx.dev
+[settings]
+# https://mise.jdx.dev/configuration/settings.html#experimental
+experimental = true
+# https://mise.jdx.dev/configuration/settings.html#minimum_release_age
+minimum_release_age = "1d"
+# https://mise.jdx.dev/dev-tools/backends/pipx.html#pipx.uvx
+pipx.uvx = true
+
+[tools]
+"pipx:ruff" = "0.16"
+
+hk = "2"
+uv = "0.12"
+
+
+[hooks]
+enter = ["hk install --mise"]

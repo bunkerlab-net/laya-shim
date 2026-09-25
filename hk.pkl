@@ -1,0 +1,12 @@
+amends "package://github.com/jdx/hk/releases/download/v2.0.1/hk@2.0.1#/Config.pkl"
+import "package://github.com/jdx/hk/releases/download/v2.0.1/hk@2.0.1#/Builtins.pkl"
+// Using a coding agent? See https://hk.jdx.dev/agents
+
+local linters = new Mapping {
+    ["ruff"] = Builtins.ruff
+    // Format after `ruff check --fix`, which can leave blank lines behind when
+    // it removes code.
+    ["ruff_format"] = (Builtins.ruff_format) { depends = "ruff" }
+}
+
+steps = linters
