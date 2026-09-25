@@ -209,3 +209,11 @@ Every action in the workflows is pinned to a full commit SHA, with the version
 in a trailing comment. Dependabot updates those pins and the uv dependencies
 every week. Dependabot doesn't read `mise.toml`, so update the versions of hk,
 ruff, and uv there yourself.
+
+## License
+
+Copyright 2026 Robbie Blaine. This project is licensed under the Apache
+License, Version 2.0. For the full text, see [`LICENSE`](LICENSE).
+
+Laya, Laya-MLX, and the Laya checkpoints are separate projects with their own
+licenses, all of which are also Apache-2.0.

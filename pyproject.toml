@@ -2,6 +2,8 @@
 name = "laya-shim"
 version = "0.1.0"
 requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
 dependencies = []
 
 [project.optional-dependencies]
