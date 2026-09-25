@@ -13,6 +13,20 @@ pipx.uvx = true
 hk = "2"
 uv = "0.12"
 
+# Shim settings. A value set in your shell or in mise.local.toml takes
+# precedence over these defaults. See README.md.
+[env]
+LAYA_BACKEND = "{{ get_env(name='LAYA_BACKEND', default='mlx') }}"
+LAYA_MODEL = "{{ get_env(name='LAYA_MODEL', default='convaiinnovations/laya') }}"
+LAYA_SUBFOLDER = "{{ get_env(name='LAYA_SUBFOLDER', default='typed-decisions') }}"
+LAYA_HOST = "{{ get_env(name='LAYA_HOST', default='127.0.0.1') }}"
+LAYA_PORT = "{{ get_env(name='LAYA_PORT', default='8765') }}"
+LAYA_LOG_COLOR = "{{ get_env(name='LAYA_LOG_COLOR', default='auto') }}"
+
+[tasks.serve]
+description = "Serve Laya on POST /v1/systemone"
+run = 'uv run --extra "$LAYA_BACKEND" python laya_shim.py'
+
 
 [hooks]
 enter = ["hk install --mise"]
