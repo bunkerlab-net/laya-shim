@@ -168,10 +168,39 @@ the answers.
   option labels instead of the input, most often on the English checkpoint. In
   a test with the typed-decisions checkpoint, "All tests pass now." scored 0.54
   for "Does the reply claim tests pass?", which is close to a coin toss.
-- **Latency.** Upstream's figures are for short inputs: 13 ms on an M3 Max with
-  MLX, and 33 to 40 ms on a T4 GPU with PyTorch. With omp's `find`, which sends
-  whole files, each request took 200 to 470 ms on MLX and 80 to 1,140 ms on
-  PyTorch on an Apple silicon Mac.
+- **Latency grows with input length.** A full 1,024-token state takes about
+  13 times as long as a short one. omp's `find` sends whole files, so expect
+  hundreds of milliseconds per request there. See [Benchmarks](#benchmarks).
+
+## Benchmarks
+
+`bench.py` sends System One requests to a running server and times each HTTP
+round trip. To measure your machine, start the server, and then run this
+command in a second terminal:
+
+```sh
+mise run bench
+```
+
+Each workload runs 5 untimed warmup requests and then 50 timed ones. To change
+the counts, run `uv run --no-project python bench.py --iterations 100 --warmup
+10`. The long workload's state is about 12,700 characters, far more than Laya's
+1,024-token context holds, so Laya reads a full context and drops the rest.
+
+These results come from an Apple M2 Pro with 16 GB of memory and the
+typed-decisions checkpoint, measured on September 25, 2026. Both backends ran
+on the GPU: MLX through Metal, and PyTorch through MPS.
+
+| Workload                  |  MLX p50 |  MLX p95 | PyTorch p50 | PyTorch p95 |
+| ------------------------- | -------: | -------: | ----------: | ----------: |
+| Short state, 1 question   |  17.2 ms |  19.0 ms |     34.0 ms |     37.3 ms |
+| Short state, 3 questions  |  42.0 ms |  44.3 ms |     56.9 ms |     60.3 ms |
+| Short state, 10 questions |  91.5 ms |  94.3 ms |    139.8 ms |    150.6 ms |
+| Long state, 1 question    | 232.1 ms | 248.2 ms |    301.8 ms |    324.1 ms |
+
+MLX was about twice as fast on a single short question and 1.3 to 1.5 times as
+fast on the rest. On load time, MLX took about 1 second, and PyTorch took 8 to
+18 seconds.
 
 ## Logs
 
