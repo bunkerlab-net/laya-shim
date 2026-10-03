@@ -278,8 +278,8 @@ they need an 850 MB checkpoint download.
 
 Every action in the workflows is pinned to a full commit SHA, with the version
 in a trailing comment. Dependabot updates those pins and the uv dependencies
-every week, grouped by ecosystem with separate groups for version and security
-updates. Python package resolution excludes releases uploaded in the last
+every week, with version updates grouped into `github-actions` and `python`
+pull requests. Python package resolution excludes releases uploaded in the last
 24 hours, matching Dependabot's one-day cooldown for version updates.
 Dependabot's cooldown does not delay security updates. Dependabot doesn't read
 `mise.toml`, so update the versions of hk, ruff, and uv there yourself.

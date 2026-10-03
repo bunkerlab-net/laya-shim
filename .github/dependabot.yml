@@ -9,12 +9,7 @@ updates:
     cooldown:
       default-days: 1
     groups:
-      all-version-updates:
-        applies-to: version-updates
-        patterns:
-          - "*"
-      all-security-updates:
-        applies-to: security-updates
+      github-actions:
         patterns:
           - "*"
 
@@ -25,11 +20,6 @@ updates:
     cooldown:
       default-days: 1
     groups:
-      all-version-updates:
-        applies-to: version-updates
-        patterns:
-          - "*"
-      all-security-updates:
-        applies-to: security-updates
+      python:
         patterns:
           - "*"
