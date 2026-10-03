@@ -8,6 +8,10 @@ updates:
     # Matches minimum_release_age in mise.toml.
     cooldown:
       default-days: 1
+    groups:
+      github-actions:
+        patterns:
+          - "*"
 
   - package-ecosystem: uv
     directory: /
@@ -15,3 +19,7 @@ updates:
       interval: weekly
     cooldown:
       default-days: 1
+    groups:
+      python:
+        patterns:
+          - "*"
